@@ -27,7 +27,7 @@ void NormalizaDistancia(float Wmax)
         for(j=i+1;j<10;j++)
         {
           Arestas[i][j] = Arestas[i][j]/Wmax;
-          printf("[%d,%d] = %.2f\n",i,j,Arestas[i][j];
+          printf("[%d,%d] = %.2f\n",i,j,Arestas[i][j]);
         }
     }
 }
