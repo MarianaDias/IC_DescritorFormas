@@ -19,20 +19,36 @@ void Coordenadas()
   }
 }
 
+void NormalizaDistancia(float Wmax)
+{
+    int i,j;
+    for(i=0;i<10;i++)
+    {
+        for(j=i+1;j<10;j++)
+        {
+          Arestas[i][j] = Arestas[i][j]/Wmax;
+          printf("[%d,%d] = %.2f\n",i,j,Arestas[i][j];
+        }
+    }
+}
+
 void DistanciaEuclidiana()
 {
   int i,j;
-  float d;
+  float d, maiordistancia = 0;
   for(i=0;i< 10;i++)
   {
     for(j=i+1;j< 10; j++)
     {
       d = pow((pontosX[i] - pontosX[j]),2) + pow((pontosY[i] - pontosY[j]),2);
       Arestas[i][j] = sqrt(d);
+      if(Arestas[i][j] > maiordistancia)
+        maiordistancia = Arestas[i][j];
       printf("[%d,%d] = %.2f\n",i,j,Arestas[i][j]);
     }
   }
   printf("\n-------- Calculou ------ \n");
+  NormalizaDistancia(maiordistancia);
 }
 
 int main()
