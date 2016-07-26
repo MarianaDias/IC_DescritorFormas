@@ -5,6 +5,7 @@
 float pontosX[10];
 float pontosY[10];
 float Arestas[10][10];
+float limiaresT[13] = {0.0250,0.0100,0.1750,0.2500,0.3250,0.4000,0.4750,0.5500,0.6250,0.7000,0.7250,0.8500,0.9250}
 
 void Coordenadas()
 {
