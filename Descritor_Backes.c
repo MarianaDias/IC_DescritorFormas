@@ -167,5 +167,6 @@ int main()
   Coordenadas();
   DistanciaEuclidiana();
   TranformacaoRede();
+  getchar();
   return 0;
 }
