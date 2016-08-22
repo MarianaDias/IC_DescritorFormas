@@ -9,6 +9,7 @@ typedef struct
 {
       float kmax;
       float kmedio;
+      int   num;
 }Desct;
 
 int   qtepontos;
@@ -18,7 +19,7 @@ float Arestas[tamN][tamN];
 int   Rede[tamN][tamN];
 int   grauVertices[tamN];
 float limiaresT[tamT] = {0.0250,0.0100,0.1750,0.2500,0.3250,0.4000,0.4750,0.5500,0.6250,0.7000,0.7250,0.8500,0.9250};
-Desct descritor[tamT];
+Desct descritor[tamN];
 FILE *forma2D;
 
 void Coordenadas()
@@ -80,7 +81,6 @@ void DistanciaEuclidiana()
       Arestas[i][j] = sqrt(d);
       if(Arestas[i][j] > maiordistancia)
         maiordistancia = Arestas[i][j];
-      //printf("[%d,%d] = %.2f\n",i,j,Arestas[i][j]);
     }
   }
   NormalizaDistancia(maiordistancia);
@@ -95,6 +95,7 @@ void IniciagrauVet()
     }
 }
 
+//Calcula os graus dos vertices para depois calcular o Médio e o Maximo
 void DeterminaGrau()
 {
   int i,j;
@@ -117,7 +118,6 @@ void CalculaGrauMaximo(Desct *d)
       if(grauVertices[i] > (*d).kmax)
         (*d).kmax = grauVertices[i];
     }
-    //printf("Grau Maximo %d\n",(*d).kmax);
 }
 
 void CalculaGrauMedio(Desct *d)
@@ -157,16 +157,18 @@ void SelecionaArestas(float t)
 
 void TranformacaoRede()
 {
-    int i,j,k;
-   for(i = 0;i< tamT;i++)
-   {
-        //printf("%.4f\n",limiaresT[12]);
-        SelecionaArestas(limiaresT[i]);
-        DeterminaGrau();
+    int i,j,k,lim;
+
+    printf("Limiar: " );
+    scanf("%f",&lim);
+    SelecionaArestas(lim);
+    DeterminaGrau();
+    for(i = 0;i< tamT;i++)
+    {
         CalculaGrauMaximo(&descritor[i]);
         CalculaGrauMedio(&descritor[i]);
-   }
-   MostraDescritores();
+    }
+    MostraDescritores();
 }
 
 void IniciaMatrizes()
@@ -188,7 +190,7 @@ int main()
 {
   IniciaMatrizes();
   Coordenadas();
-  PrintaTeste();
+  //PrintaTeste();
   DistanciaEuclidiana();
   TranformacaoRede();
   getchar();
