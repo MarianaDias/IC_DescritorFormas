@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define tamN 10
+#define tamN 1000
 #define tamT 13
 
 typedef struct
@@ -18,18 +18,38 @@ int   Rede[tamN][tamN];
 int   grauVertices[tamN];
 float limiaresT[tamT] = {0.0250,0.0100,0.1750,0.2500,0.3250,0.4000,0.4750,0.5500,0.6250,0.7000,0.7250,0.8500,0.9250};
 Desct descritor[tamT];
+FILE *forma2D;
 
 void Coordenadas()
 {
-  int i;
-  printf("Insira as coordenadas do contorno da forma 2D:\n");
-  for(i=0;i<tamN;i++)
+  int i,j;
+  char nomeIma[20];
+  printf("Nome do Arquivo da Base: ");
+//  for(j=0;j<;j++)
+  scanf("%s",&nomeIma);
+  printf("%s\n",nomeIma);  
+  forma2D = fopen(nomeIma,"r");
+  if(forma2D == NULL)
   {
-      printf("x %d: ",i);
-      scanf("%f",&pontosX[i]);
-      printf("y %d: ",i);
-      scanf("%f",&pontosY[i]);
+      printf("Erro na Abertura do Arquivo\n");
   }
+  else
+  {
+      i = 0;
+      while (fscanf(forma2D,"%f %f\n",&pontosX[i], &pontosY[i]) != EOF)
+      {
+          i++;
+      }
+  }
+}
+
+void PrintaTeste()
+{
+    int i;
+    for(i=0; i<= tamN;i++)
+    {
+        printf("%d - %f %f\n",i,pontosX[i],pontosY[i]);
+    }
 }
 
 void NormalizaDistancia(float Wmax)
@@ -165,8 +185,9 @@ int main()
 {
   IniciaMatrizes();
   Coordenadas();
-  DistanciaEuclidiana();
-  TranformacaoRede();
+  PrintaTeste();
+  //DistanciaEuclidiana();
+  //TranformacaoRede();
   getchar();
   return 0;
 }
