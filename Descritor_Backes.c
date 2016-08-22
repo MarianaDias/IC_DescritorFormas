@@ -11,6 +11,7 @@ typedef struct
       float kmedio;
 }Desct;
 
+int   qtepontos;
 float pontosX[tamN];
 float pontosY[tamN];
 float Arestas[tamN][tamN];
@@ -24,10 +25,12 @@ void Coordenadas()
 {
   int i,j;
   char nomeIma[20];
+  printf("Quantidade de Pontos\n",&qtepontos);
+  scanf("%d",&qtepontos);
+  qtepontos = qtepontos - 2;
   printf("Nome do Arquivo da Base: ");
-//  for(j=0;j<;j++)
   scanf("%s",&nomeIma);
-  printf("%s\n",nomeIma);  
+  printf("%s\n",nomeIma);
   forma2D = fopen(nomeIma,"r");
   if(forma2D == NULL)
   {
@@ -46,7 +49,7 @@ void Coordenadas()
 void PrintaTeste()
 {
     int i;
-    for(i=0; i<= tamN;i++)
+    for(i=0; i<= qtepontos;i++)
     {
         printf("%d - %f %f\n",i,pontosX[i],pontosY[i]);
     }
@@ -55,9 +58,9 @@ void PrintaTeste()
 void NormalizaDistancia(float Wmax)
 {
     int i,j;
-    for(i=0;i<tamN;i++)
+    for(i=0;i<qtepontos;i++)
     {
-        for(j=i+1;j<tamN;j++)
+        for(j=i+1;j<qtepontos;j++)
         {
           Arestas[i][j] = Arestas[i][j]/Wmax;
         //  printf("[%d,%d] = %.2f\n",i,j,Arestas[i][j]);
@@ -69,9 +72,9 @@ void DistanciaEuclidiana()
 {
   int i,j;
   float d, maiordistancia = 0;
-  for(i=0;i< tamN;i++)
+  for(i=0;i< qtepontos;i++)
   {
-    for(j=i+1;j< tamN; j++)
+    for(j=i+1;j< qtepontos; j++)
     {
       d = pow((pontosX[i] - pontosX[j]),2) + pow((pontosY[i] - pontosY[j]),2);
       Arestas[i][j] = sqrt(d);
@@ -86,7 +89,7 @@ void DistanciaEuclidiana()
 void IniciagrauVet()
 {
     int i;
-    for(i= 0;i<tamN;i++)
+    for(i= 0;i<qtepontos;i++)
     {
         grauVertices[i] = 0;
     }
@@ -96,9 +99,9 @@ void DeterminaGrau()
 {
   int i,j;
   IniciagrauVet();
-  for (i=0; i<tamN; i++)
+  for (i=0; i<qtepontos; i++)
   {
-    for(j=0; j<tamN; j++)
+    for(j=0; j<qtepontos; j++)
     {
         if(Rede[i][j] == 1 || Rede[j][i] == 1)
           grauVertices[i]++;
@@ -109,7 +112,7 @@ void DeterminaGrau()
 void CalculaGrauMaximo(Desct *d)
 {
     int i,j, valormax = 0;
-    for(i=0;i<tamN;i++)
+    for(i=0;i<qtepontos;i++)
     {
       if(grauVertices[i] > (*d).kmax)
         (*d).kmax = grauVertices[i];
@@ -120,18 +123,18 @@ void CalculaGrauMaximo(Desct *d)
 void CalculaGrauMedio(Desct *d)
 {
     int i,soma = 0;
-    for(i=0;i<tamN;i++)
+    for(i=0;i<qtepontos;i++)
     {
         soma += grauVertices[i];
     }
-    (*d).kmedio = soma/tamN;
+    (*d).kmedio = soma/qtepontos;
 }
 
 void MostraDescritores()
 {
   int i;
   printf("\nDescritores Formados;\n");
-  for(i=0;i<tamN;i++)
+  for(i=0;i<qtepontos;i++)
   {
     printf("\nDescritor: %d\n",i);
     printf("Grau Maximo: %.4f\n",descritor[i].kmax);
@@ -142,9 +145,9 @@ void MostraDescritores()
 void SelecionaArestas(float t)
 {
   int j,k;
-  for (j=0; j<tamN;j++)
+  for (j=0; j<qtepontos;j++)
   {
-    for (k = j+1; k < tamN; k++)
+    for (k = j+1; k < qtepontos; k++)
     {
       if(Arestas[j][k] <= t)
         Rede[j][k] = 1;
@@ -169,11 +172,11 @@ void TranformacaoRede()
 void IniciaMatrizes()
 {
     int i,j;
-    for(i=0;i<tamN;i++)
+    for(i=0;i<qtepontos;i++)
     {
         descritor[i].kmax = 0;
         descritor[i].kmedio = 0;
-        for(j=0;j<tamN;j++)
+        for(j=0;j<qtepontos;j++)
         {
           Arestas[i][j] = 0;
           Rede[i][j] = 0;
@@ -186,8 +189,8 @@ int main()
   IniciaMatrizes();
   Coordenadas();
   PrintaTeste();
-  //DistanciaEuclidiana();
-  //TranformacaoRede();
+  DistanciaEuclidiana();
+  TranformacaoRede();
   getchar();
   return 0;
 }
