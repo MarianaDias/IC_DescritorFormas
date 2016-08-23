@@ -9,7 +9,6 @@ typedef struct
 {
       float kmax;
       float kmedio;
-      int   num;
 }Desct;
 
 int   qtepontos;
@@ -19,7 +18,7 @@ float Arestas[tamN][tamN];
 int   Rede[tamN][tamN];
 int   grauVertices[tamN];
 float limiaresT[tamT] = {0.0250,0.0100,0.1750,0.2500,0.3250,0.4000,0.4750,0.5500,0.6250,0.7000,0.7250,0.8500,0.9250};
-Desct descritor[tamN];
+Desct descritor[tamT];
 FILE *forma2D;
 
 void Coordenadas()
@@ -134,7 +133,7 @@ void MostraDescritores()
 {
   int i;
   printf("\nDescritores Formados;\n");
-  for(i=0;i<qtepontos;i++)
+  for(i=0;i<tamT;i++)
   {
     printf("\nDescritor: %d\n",i);
     printf("Grau Maximo: %.4f\n",descritor[i].kmax);
@@ -158,17 +157,14 @@ void SelecionaArestas(float t)
 void TranformacaoRede()
 {
     int i,j,k,lim;
-
-    printf("Limiar: " );
-    scanf("%f",&lim);
-    SelecionaArestas(lim);
-    DeterminaGrau();
-    for(i = 0;i< tamT;i++)
-    {
+   for(i = 0;i< tamT;i++)
+   {
+        SelecionaArestas(limiaresT[i]);
+        DeterminaGrau();
         CalculaGrauMaximo(&descritor[i]);
         CalculaGrauMedio(&descritor[i]);
-    }
-    MostraDescritores();
+        MostraDescritores();
+   }
 }
 
 void IniciaMatrizes()
