@@ -133,7 +133,7 @@ void CalculaGrauMedio(Desct *d)
 void MostraDescritores()
 {
   int i;
-  Descritor = fopen("Descritor.txt","w");  
+  Descritor = fopen("Descritor.txt","w");
   for(i=0;i<tamT;i++)
   {
     fprintf(Descritor,"%4f %.4f\n",descritor[i].kmedio,descritor[i].kmax);
@@ -184,12 +184,15 @@ void IniciaMatrizes()
 
 int main()
 {
-  IniciaMatrizes();
-  Coordenadas();
-  //PrintaTeste();
-  DistanciaEuclidiana();
-  TranformacaoRede();
-  fclose(Descritor);
-  getchar();
+  while(1)
+  {
+    IniciaMatrizes();
+    Coordenadas();
+    //PrintaTeste();
+    DistanciaEuclidiana();
+    TranformacaoRede();
+    fclose(Descritor);
+    getchar();
+  }
   return 0;
 }
