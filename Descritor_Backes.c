@@ -133,14 +133,12 @@ void CalculaGrauMedio(Desct *d)
 void MostraDescritores()
 {
   int i;
-  printf("\nDescritores Formados;\n");
+  Descritor = fopen("Descritor.txt","w");  
   for(i=0;i<tamT;i++)
   {
-    Descritor = fopen("Descritor.txt","a");
-    fprintf(Descritor,"Limiar %.4f\n",limiaresT[i]);
-    fprintf(Descritor,"Grau Maximo: %.4f\n",descritor[i].kmax);
-    fprintf(Descritor,"Grau Medio: %.4f\n",descritor[i].kmedio);
+    fprintf(Descritor,"%4f %.4f\n",descritor[i].kmedio,descritor[i].kmax);
   }
+  printf("\nDescritores Formados;\n");
 }
 
 void SelecionaArestas(float t)
