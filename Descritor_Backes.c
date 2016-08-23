@@ -17,9 +17,9 @@ float pontosY[tamN];
 float Arestas[tamN][tamN];
 int   Rede[tamN][tamN];
 int   grauVertices[tamN];
-float limiaresT[tamT] = {0.0250,0.0100,0.1750,0.2500,0.3250,0.4000,0.4750,0.5500,0.6250,0.7000,0.7250,0.8500,0.9250};
+float limiaresT[tamT] = {0.0250,0.1000,0.1750,0.2500,0.3250,0.4000,0.4750,0.5500,0.6250,0.7000,0.7250,0.8500,0.9250};
 Desct descritor[tamT];
-FILE *forma2D;
+FILE *forma2D, *Descritor;
 
 void Coordenadas()
 {
@@ -44,6 +44,7 @@ void Coordenadas()
           i++;
       }
   }
+  fclose(forma2D);
 }
 
 void PrintaTeste()
@@ -135,9 +136,10 @@ void MostraDescritores()
   printf("\nDescritores Formados;\n");
   for(i=0;i<tamT;i++)
   {
-    printf("\nDescritor: %d\n",i);
-    printf("Grau Maximo: %.4f\n",descritor[i].kmax);
-    printf("Grau Medio: %.4f\n",descritor[i].kmedio);
+    Descritor = fopen("Descritor.txt","a");
+    fprintf(Descritor,"Limiar %.4f\n",limiaresT[i]);
+    fprintf(Descritor,"Grau Maximo: %.4f\n",descritor[i].kmax);
+    fprintf(Descritor,"Grau Medio: %.4f\n",descritor[i].kmedio);
   }
 }
 
@@ -156,15 +158,15 @@ void SelecionaArestas(float t)
 
 void TranformacaoRede()
 {
-    int i,j,k,lim;
+   int i,j,k;
    for(i = 0;i< tamT;i++)
    {
         SelecionaArestas(limiaresT[i]);
         DeterminaGrau();
         CalculaGrauMaximo(&descritor[i]);
         CalculaGrauMedio(&descritor[i]);
-        MostraDescritores();
    }
+     MostraDescritores();
 }
 
 void IniciaMatrizes()
@@ -189,6 +191,7 @@ int main()
   //PrintaTeste();
   DistanciaEuclidiana();
   TranformacaoRede();
+  fclose(Descritor);
   getchar();
   return 0;
 }
