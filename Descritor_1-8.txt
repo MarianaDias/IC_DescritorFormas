@@ -1,0 +1,39 @@
+Limiar 0.9250
+Grau Maximo: 385.0000
+Grau Medio: 381.0000
+Limiar 0.0250
+Grau Maximo: 16.0000
+Grau Medio: 6.0000
+Limiar 0.1000
+Grau Maximo: 71.0000
+Grau Medio: 35.0000
+Limiar 0.1750
+Grau Maximo: 106.0000
+Grau Medio: 73.0000
+Limiar 0.2500
+Grau Maximo: 175.0000
+Grau Medio: 112.0000
+Limiar 0.3250
+Grau Maximo: 234.0000
+Grau Medio: 157.0000
+Limiar 0.4000
+Grau Maximo: 299.0000
+Grau Medio: 202.0000
+Limiar 0.4750
+Grau Maximo: 366.0000
+Grau Medio: 244.0000
+Limiar 0.5500
+Grau Maximo: 385.0000
+Grau Medio: 277.0000
+Limiar 0.6250
+Grau Maximo: 385.0000
+Grau Medio: 305.0000
+Limiar 0.7000
+Grau Maximo: 385.0000
+Grau Medio: 332.0000
+Limiar 0.7250
+Grau Maximo: 385.0000
+Grau Medio: 341.0000
+Limiar 0.8500
+Grau Maximo: 385.0000
+Grau Medio: 373.0000
