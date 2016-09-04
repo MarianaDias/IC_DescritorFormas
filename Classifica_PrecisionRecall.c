@@ -21,7 +21,7 @@ Descritor formaBuscada;
 Descritor formasBase[num-1];
 char Nomebuscado[tamstr];
 
-char TabelaDesc[num][num];
+char Tabela[num+1][num+1];
 
 FILE *descBuscado, *descBase;
 
@@ -34,18 +34,18 @@ FILE *descBuscado, *descBase;
     }
 }*/
 
-void MostraBase()
+/*void MostraBase()
 {
     int i,j;
-    //for(j=0;j<num;j++)
-    //{
-    //  for(i=0;i<tamDesc;i++)
-      //{
-          printf("Medio: %.4f Max: %.4f\n",formasBase[0].kmedio[0],formasBase[0].kmax[0]);
-          printf("Medio: %.4f Max: %.4f\n",formasBase[0].kmedio[1],formasBase[0].kmax[1]);
-    //  }
-    //}
-}
+    for(j=0;j<num;j++)
+    {
+      printf("Desc %d\n",j);
+      for(i=0;i<tamDesc;i++)
+      {
+          printf("Medio: %.4f Max: %.4f\n",formasBase[j].kmedio[i],formasBase[j].kmax[i]);
+      }
+    }
+}*/
 
 void ArqToVetor(FILE *Arquivo, Descritor *vet)
 {
@@ -61,19 +61,21 @@ void ArqToVetor(FILE *Arquivo, Descritor *vet)
 
 int FormaVetoresBase()
 {
-    int i = 1;
-    for(i=1;i<=num;i++)
+    int i;
+    char nomeD[tamstr];
+    for(i=0;i<num;i++)
     {
-      strcat(TabelaDesc[i],".txt");
-      if(strcmp(TabelaDesc[i],Nomebuscado) != 0)
+      strcpy(nomeD,Tabela[i+1]);
+      strcat(nomeD,".txt");
+      if(strcmp(nomeD,Nomebuscado) != 0)
       {
-          descBase = fopen(TabelaDesc[i],"r");
+          descBase = fopen(nomeD,"r");
           if(descBase == NULL)
           {
-              printf("Erro ao abrir o arquivo %s\n",TabelaDesc[i]);
+              printf("Erro ao abrir o arquivo %s\n",nomeD);
               return -1;
           }
-          ArqToVetor(descBase,&formasBase[i-1]);
+          ArqToVetor(descBase,&formasBase[i]);
           fclose(descBase);
       }
     }
@@ -82,6 +84,7 @@ int FormaVetoresBase()
 
 int EscolheBuscado()
 {
+
     printf("Nome do Descritor Buscado: ");
     scanf("%s",&Nomebuscado);
     descBuscado = fopen(Nomebuscado,"r");
@@ -95,16 +98,16 @@ int EscolheBuscado()
     return 1;
 }
 
-/*
-void MostraTabela(){
+
+/*void MostraTabela(){
   int i;
   for(i=1;i<=num;i++)
   {
-    printf("%s\n",TabelaDesc[i]);
+    printf("%s %d\n",Tabela[i],i);
   }
 }*/
 
-void MontaTabelaDesc()
+void MontaTabela()
 {
    int i,j,count = 1;
    char base[tamstr];
@@ -121,7 +124,7 @@ void MontaTabelaDesc()
         strcat(base,"-");
         itoa(i,numero,10);
         strcat(base,numero);
-        strcpy(TabelaDesc[count],base);
+        strcpy(Tabela[count],base);
         count++;
      }
    }
@@ -129,11 +132,13 @@ void MontaTabelaDesc()
 
 int main()
 {
-  MontaTabelaDesc();
+  MontaTabela();
   if(EscolheBuscado() != -1)
-    if(FormaVetoresBase() != -1)
-      MostraBase();
-
-    getchar();
-    return 0;
+  {
+      if(FormaVetoresBase() != -1)
+        //printf("ok\n");
+        MostraBase();
+  }
+  getchar();
+  return 0;
 }
