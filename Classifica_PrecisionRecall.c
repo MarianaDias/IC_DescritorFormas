@@ -11,17 +11,22 @@
 #define nClasse 18
 #define qFormas 12
 
+
 typedef struct
 {
     float kmedio[tamDesc];
     float kmax[tamDesc];
+    int numdescritor;
 }Descritor;
 
 Descritor formaBuscada;
 Descritor formasBase[num-1];
 char Nomebuscado[tamstr];
-
 char Tabela[num+1][num+1];
+char DescOrdenados[num][num];
+int  IndicesOrdenados[num-1]
+float bigVetBase[2*tamDesc];
+float bigVetBuscado[2*tamDesc];
 
 FILE *descBuscado, *descBase;
 
@@ -46,6 +51,42 @@ FILE *descBuscado, *descBase;
       }
     }
 }*/
+
+void MontaBigVet(Descritor d, float bigVet[])
+{
+   int i = 0,j;
+   for(j=0;j<tamDesc;j++)
+   {
+      bigVet[i] = d.kmedio[j];
+      bigVet[i+1] = d.kmax[j];
+      i = i+2;
+   }
+}
+
+float DistEuclidiana()
+{
+  int i;
+  float soma=0, dist=0, sub =0;
+  for (i = 0; i <tamDesc; i++)
+  {
+    sub = bigVetBase[i] - bigVetBuscado[i];
+    soma += pow(sub,2);
+  }
+  dist = sqrt(soma);
+  return dist;
+}
+
+void Classifica()
+{
+  int i;
+  float distancia[num-1];
+  MontaBigVet(formaBuscada,bigVetBuscado);
+  for (i = 0; i < num; i++)
+  {
+      MontaBigVet(formasBase[i],bigVetBase);
+      distancia[i] = DistEuclidiana();
+  }
+}
 
 void ArqToVetor(FILE *Arquivo, Descritor *vet)
 {
@@ -76,7 +117,12 @@ int FormaVetoresBase()
               return -1;
           }
           ArqToVetor(descBase,&formasBase[i]);
+          formasBase[i].numdescritor = i;
           fclose(descBase);
+      }
+      else
+      {
+        formaBuscada.numdescritor = i;
       }
     }
     return 1;
@@ -130,15 +176,35 @@ void MontaTabela()
    }
 }
 
+void MostraLista() {
+
+  Lista q = IndicesOrdenados;
+  while (q != NULL) {
+    printf("%d\n",q->indice);
+    q = q->prox;
+  }
+
+}
+
 int main()
 {
-  MontaTabela();
+/*  MontaTabela();
   if(EscolheBuscado() != -1)
   {
       if(FormaVetoresBase() != -1)
+        Classifica();*/
         //printf("ok\n");
-        MostraBase();
-  }
+        //MostraBase();
+  InsereOrdenado(20);
+  InsereOrdenado(50);
+//  InsereOrdenado(12);
+  //InsereOrdenado(2);
+  //InsereOrdenado(10);
+  //InsereOrdenado(11);
+
+  MostraLista();
+
+
   getchar();
   return 0;
 }
