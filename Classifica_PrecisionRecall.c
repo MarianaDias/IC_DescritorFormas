@@ -120,15 +120,13 @@ void Classifica()
   int i;
   float distancia[num-1];
   MontaBigVet(formaBuscada,bigVetBuscado);
-  for (i = 0; i <= num; i++)
+  for (i = 0; i < num; i++)
   {
-        if(strcmp(formasBase[i].nomeDesc,formaBuscada.nomeDesc) != 0)
-        {
-          MontaBigVet(formasBase[i],bigVetBase);
-          printf("%d %s\n",i,formasBase[i].nomeDesc);
-          DistVet[i].distancia = DistEuclidiana();
-          strcpy(DistVet[i].nomeDist,formasBase[i].nomeDesc);
-        }
+    //printf("%d %s\n",i,formasBase[i].nomeDesc);
+    MontaBigVet(formasBase[i],bigVetBase);
+
+    DistVet[i].distancia = DistEuclidiana();
+    strcpy(DistVet[i].nomeDist,formasBase[i].nomeDesc);
   }
   quicksort(DistVet,0,num-1);
 }
@@ -151,7 +149,7 @@ int FormaVetoresBase()
     int i = 0,j;
     for(i=0;i<num;i++)
     {
-      if(strcmp(formaBuscada.nomeDesc,Tabela[i+1]))
+      if(strcmp(formaBuscada.nomeDesc,Tabela[i+1]) !=0)
       {
           descBase = fopen(Tabela[i+1],"r");
           if(descBase == NULL)
@@ -163,6 +161,9 @@ int FormaVetoresBase()
           strcpy(formasBase[i].nomeDesc,Tabela[i+1]);
           fclose(descBase);
       }
+    }
+    for ( i = 0; i < num; i++) {
+      printf("%d %s\n",i,formasBase[i].nomeDesc );
     }
     return 1;
 }
@@ -222,15 +223,20 @@ void MontaTabela()
 int main()
 {
   MontaTabela();
-  if(EscolheBuscado() != -1)
+  while(1)
   {
-      if(FormaVetoresBase() != -1)
-      {
-        Classifica();
-        DaResultado();
-      }
+    if(EscolheBuscado() != -1)
+    {
+        if(FormaVetoresBase() != -1)
+        {
+          Classifica();
+          DaResultado();
+        }
+    }
+   printf("ok\n");
   }
- printf("ok\n");
+
+
 
   getchar();
   return 0;
