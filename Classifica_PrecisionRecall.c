@@ -16,18 +16,18 @@ typedef struct
 {
     float kmedio[tamDesc];
     float kmax[tamDesc];
-    int numdescritor;
+    char  nomeDesc[tamstr];
 }Descritor;
 
 typedef struct
 {
-    int indice;
+    char  nomeDist[tamstr];
     float distancia;
 }DistEucli;
 
 Descritor formaBuscada;
 Descritor formasBase[num-1];
-DistEucli DistVet[num-1];
+DistEucli DistVet[num+1];
 char Nomebuscado[tamstr];
 char Tabela[num+1][num+1];
 float bigVetBase[2*tamDesc];
@@ -35,28 +35,7 @@ float bigVetBuscado[2*tamDesc];
 
 FILE *descBuscado, *descBase, *resultado;
 
-/*void MostraVet()
-{
-    int i;
-    for(i=0;i<tamDesc;i++)
-    {
-        printf("Medio: %.4f Max: %.4f\n",formaBuscada.kmedio[i],formaBuscada.kmax[i]);
-    }
-}*/
-
-/*void MostraBase()
-{
-    int i,j;
-    for(j=0;j<num;j++)
-    {
-      printf("Desc %d\n",j);
-      for(i=0;i<tamDesc;i++)
-      {
-          printf("Medio: %.4f Max: %.4f\n",formasBase[j].kmedio[i],formasBase[j].kmax[i]);
-      }
-    }
-}*/
-
+/*Coloca o descritor em um vetor unico [kmedio,kmax,...kmedio,kmax]*/
 void MontaBigVet(Descritor d, float bigVet[])
 {
    int i = 0,j;
@@ -78,10 +57,10 @@ float DistEuclidiana()
     soma += pow(sub,2);
   }
   dist = sqrt(soma);
-  printf("%f\n",dist);
   return dist;
 }
 
+/*Ordenacao*/
 void quicksort(DistEucli arr[],int low,int high)
 {
  int j,i,pivot;
@@ -127,25 +106,29 @@ void DaResultado()
     strcpy(resStr,"Distancias_");
     strcat(resStr,Nomebuscado);
     resultado = fopen(resStr,"w");
-    for(i =0;i<num-1;i++)
+    for(i=0;i<num;i++)
     {
-        printf("%s %.4f\n",Tabela[DistVet[i].indice],DistVet[i].distancia);
-      //  fprintf(resultado, "%d\n",DistVet[i].indice);
+        if(strcmp(DistVet[i].nomeDist,"" ) != 0)
+          fprintf(resultado,"%d %s %f\n",i,DistVet[i].nomeDist, DistVet[i].distancia);
     }
     fclose(resultado);
 }
 
-
+/*Monta o vetor ordenado em relacao a menor distancia Euclidiana da amostra*/
 void Classifica()
 {
   int i;
   float distancia[num-1];
   MontaBigVet(formaBuscada,bigVetBuscado);
-  for (i = 0; i < num; i++)
+  for (i = 0; i <= num; i++)
   {
-      MontaBigVet(formasBase[i],bigVetBase);
-      DistVet[i].distancia = DistEuclidiana();
-      DistVet[i].indice = formasBase[i].numdescritor;
+        if(strcmp(formasBase[i].nomeDesc,formaBuscada.nomeDesc) != 0)
+        {
+          MontaBigVet(formasBase[i],bigVetBase);
+          printf("%d %s\n",i,formasBase[i].nomeDesc);
+          DistVet[i].distancia = DistEuclidiana();
+          strcpy(DistVet[i].nomeDist,formasBase[i].nomeDesc);
+        }
   }
   quicksort(DistVet,0,num-1);
 }
@@ -162,37 +145,32 @@ void ArqToVetor(FILE *Arquivo, Descritor *vet)
   }
 }
 
+/*Salva o resto dos descritores e corresponde o indice do buscado na Tabela*/
 int FormaVetoresBase()
 {
-    int i;
-    char nomeD[tamstr];
+    int i = 0,j;
     for(i=0;i<num;i++)
     {
-      strcpy(nomeD,Tabela[i+1]);
-      strcat(nomeD,".txt");
-      if(strcmp(nomeD,Nomebuscado) != 0)
+      if(strcmp(formaBuscada.nomeDesc,Tabela[i+1]))
       {
-          descBase = fopen(nomeD,"r");
+          descBase = fopen(Tabela[i+1],"r");
           if(descBase == NULL)
           {
-              printf("Erro ao abrir o arquivo %s\n",nomeD);
+              printf("Erro ao abrir o arquivo %s\n",Tabela[i+1]);
               return -1;
           }
           ArqToVetor(descBase,&formasBase[i]);
-          formasBase[i].numdescritor = i;
+          strcpy(formasBase[i].nomeDesc,Tabela[i+1]);
           fclose(descBase);
-      }
-      else
-      {
-        formaBuscada.numdescritor = i;
       }
     }
     return 1;
 }
 
+/*Escolhe o arquivo do descritor a ser usando como amostra e salva ele no descritor formaBuscada*/
 int EscolheBuscado()
 {
-
+    int i;
     printf("Nome do Descritor Buscado: ");
     scanf("%s",&Nomebuscado);
     descBuscado = fopen(Nomebuscado,"r");
@@ -202,19 +180,21 @@ int EscolheBuscado()
       return -1;
     }
     ArqToVetor(descBuscado,&formaBuscada);
+    strcpy(formaBuscada.nomeDesc,Nomebuscado);
     fclose(descBuscado);
     return 1;
 }
 
 
-/*void MostraTabela(){
+void MostraTabela(){
   int i;
   for(i=1;i<=num;i++)
   {
     printf("%s %d\n",Tabela[i],i);
   }
-}*/
+}
 
+/*Monta uma tabela de correspondencia para decritor e indice*/
 void MontaTabela()
 {
    int i,j,count = 1;
@@ -232,6 +212,7 @@ void MontaTabela()
         strcat(base,"-");
         itoa(i,numero,10);
         strcat(base,numero);
+        strcat(base, ".txt");
         strcpy(Tabela[count],base);
         count++;
      }
@@ -246,10 +227,8 @@ int main()
       if(FormaVetoresBase() != -1)
       {
         Classifica();
-        printf("haha\n" );
         DaResultado();
       }
-
   }
  printf("ok\n");
 
