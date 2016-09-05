@@ -19,16 +19,21 @@ typedef struct
     int numdescritor;
 }Descritor;
 
+typedef struct
+{
+    int indice;
+    float distancia;
+}DistEucli;
+
 Descritor formaBuscada;
 Descritor formasBase[num-1];
+DistEucli DistVet[num-1];
 char Nomebuscado[tamstr];
 char Tabela[num+1][num+1];
-char DescOrdenados[num][num];
-int  IndicesOrdenados[num-1]
 float bigVetBase[2*tamDesc];
 float bigVetBuscado[2*tamDesc];
 
-FILE *descBuscado, *descBase;
+FILE *descBuscado, *descBase, *resultado;
 
 /*void MostraVet()
 {
@@ -73,8 +78,63 @@ float DistEuclidiana()
     soma += pow(sub,2);
   }
   dist = sqrt(soma);
+  printf("%f\n",dist);
   return dist;
 }
+
+void quicksort(DistEucli arr[],int low,int high)
+{
+ int j,i,pivot;
+ DistEucli temp;
+ if(low < high)
+ {
+  pivot = low;
+  i = low;
+  j = high;
+
+  while(i<j)
+  {
+   while((arr[i].distancia<=arr[pivot].distancia)&&(i<high))
+   {
+    i++;
+   }
+
+   while(arr[j].distancia>arr[pivot].distancia)
+   {
+    j--;
+   }
+
+   if(i<j)
+   {
+    temp=arr[i];
+    arr[i]=arr[j];
+    arr[j]=temp;
+   }
+  }
+
+  temp=arr[pivot];
+  arr[pivot]=arr[j];
+  arr[j]=temp;
+  quicksort(arr,low,j-1);
+  quicksort(arr,j+1,high);
+ }
+}
+
+void DaResultado()
+{
+    int i;
+    char resStr[tamstr];
+    strcpy(resStr,"Distancias_");
+    strcat(resStr,Nomebuscado);
+    resultado = fopen(resStr,"w");
+    for(i =0;i<num-1;i++)
+    {
+        printf("%s %.4f\n",Tabela[DistVet[i].indice],DistVet[i].distancia);
+      //  fprintf(resultado, "%d\n",DistVet[i].indice);
+    }
+    fclose(resultado);
+}
+
 
 void Classifica()
 {
@@ -84,8 +144,10 @@ void Classifica()
   for (i = 0; i < num; i++)
   {
       MontaBigVet(formasBase[i],bigVetBase);
-      distancia[i] = DistEuclidiana();
+      DistVet[i].distancia = DistEuclidiana();
+      DistVet[i].indice = formasBase[i].numdescritor;
   }
+  quicksort(DistVet,0,num-1);
 }
 
 void ArqToVetor(FILE *Arquivo, Descritor *vet)
@@ -176,34 +238,20 @@ void MontaTabela()
    }
 }
 
-void MostraLista() {
-
-  Lista q = IndicesOrdenados;
-  while (q != NULL) {
-    printf("%d\n",q->indice);
-    q = q->prox;
-  }
-
-}
-
 int main()
 {
-/*  MontaTabela();
+  MontaTabela();
   if(EscolheBuscado() != -1)
   {
       if(FormaVetoresBase() != -1)
-        Classifica();*/
-        //printf("ok\n");
-        //MostraBase();
-  InsereOrdenado(20);
-  InsereOrdenado(50);
-//  InsereOrdenado(12);
-  //InsereOrdenado(2);
-  //InsereOrdenado(10);
-  //InsereOrdenado(11);
+      {
+        Classifica();
+        printf("haha\n" );
+        DaResultado();
+      }
 
-  MostraLista();
-
+  }
+ printf("ok\n");
 
   getchar();
   return 0;
