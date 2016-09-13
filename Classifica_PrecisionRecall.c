@@ -99,36 +99,39 @@ void quicksort(DistEucli arr[],int low,int high)
  }
 }
 
-void DaResultado()
+void DaResultado(int indice)
 {
     int i;
     char resStr[tamstr];
     strcpy(resStr,"Distancias_");
     strcat(resStr,Nomebuscado);
     resultado = fopen(resStr,"w");
-    for(i=0;i<num;i++)
+    for(i=0;i<indice;i++)
     {
-        if(strcmp(DistVet[i].nomeDist,"" ) != 0)
+    //   if(strcmp(DistVet[i].nomeDist,"Buscado" ) != 0)
           fprintf(resultado,"%d %s %f\n",i,DistVet[i].nomeDist, DistVet[i].distancia);
     }
     fclose(resultado);
 }
 
 /*Monta o vetor ordenado em relacao a menor distancia Euclidiana da amostra*/
-void Classifica()
+int Classifica()
 {
-  int i;
-  float distancia[num-1];
+  int i,j,indice = 0;
   MontaBigVet(formaBuscada,bigVetBuscado);
   for (i = 0; i < num; i++)
   {
-    //printf("%d %s\n",i,formasBase[i].nomeDesc);
-    MontaBigVet(formasBase[i],bigVetBase);
-
-    DistVet[i].distancia = DistEuclidiana();
-    strcpy(DistVet[i].nomeDist,formasBase[i].nomeDesc);
+    if(strcmp(formasBase[i].nomeDesc,"Buscado") != 0)
+    {
+      printf("Indice %d, i %d\n",indice,i );
+      MontaBigVet(formasBase[i],bigVetBase);
+      DistVet[indice].distancia = DistEuclidiana();
+      strcpy(DistVet[indice].nomeDist,formasBase[i].nomeDesc);
+      indice++;
+    }
   }
-  quicksort(DistVet,0,num-1);
+  quicksort(DistVet,0,indice-1);
+  return indice-1;
 }
 
 void ArqToVetor(FILE *Arquivo, Descritor *vet)
@@ -161,9 +164,10 @@ int FormaVetoresBase()
           strcpy(formasBase[i].nomeDesc,Tabela[i+1]);
           fclose(descBase);
       }
-    }
-    for ( i = 0; i < num; i++) {
-      printf("%d %s\n",i,formasBase[i].nomeDesc );
+      else
+      {
+        strcpy(formasBase[i].nomeDesc,"Buscado");
+      }
     }
     return 1;
 }
@@ -222,6 +226,7 @@ void MontaTabela()
 
 int main()
 {
+  int indice;
   MontaTabela();
   while(1)
   {
@@ -229,8 +234,8 @@ int main()
     {
         if(FormaVetoresBase() != -1)
         {
-          Classifica();
-          DaResultado();
+          indice = Classifica();
+          DaResultado(indice);
         }
     }
    printf("ok\n");
