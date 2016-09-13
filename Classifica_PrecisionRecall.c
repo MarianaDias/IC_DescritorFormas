@@ -123,7 +123,6 @@ int Classifica()
   {
     if(strcmp(formasBase[i].nomeDesc,"Buscado") != 0)
     {
-      printf("Indice %d, i %d\n",indice,i );
       MontaBigVet(formasBase[i],bigVetBase);
       DistVet[indice].distancia = DistEuclidiana();
       strcpy(DistVet[indice].nomeDist,formasBase[i].nomeDesc);
@@ -131,7 +130,7 @@ int Classifica()
     }
   }
   quicksort(DistVet,0,indice-1);
-  return indice-1;
+  return indice;
 }
 
 void ArqToVetor(FILE *Arquivo, Descritor *vet)
