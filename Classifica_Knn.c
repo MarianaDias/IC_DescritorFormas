@@ -5,7 +5,7 @@
 #include <string.h>
 
 #define k 5
-#define num 180
+#define num 162
 #define nClasse 18
 #define qFormas 12
 #define tamstr 50
@@ -31,7 +31,7 @@ DistEucli DistVet[num+1];
 float bigVetBase[26];
 float bigVetBuscado[26];
 char TabelaBase[num+1][num+1];
-char TabelaTeste[37][37];
+char TabelaTeste[55][55];
 
 FILE *descBuscado, *descBase, *resultado;
 
@@ -169,25 +169,25 @@ void MontaTabelaBase(int classeA, int classeB, int classeC)
    char base[tamstr];
    char numero[3];
 
-   for(j=1;j<=nClasse;j++)
+   for(j=1;j<=qFormas;j++)
    {
-      if(j != classeA && j != classeB && j != classeC)
+      for(i=1;i<=nClasse;i++)
       {
-        for(i=1;i<=qFormas;i++)
+         if(j != classeA && j != classeB && j != classeC)
          {
             strcpy(base,"Descritor_");
-            itoa(j,numero,10);
+            itoa(i,numero,10);
             strcat(base,numero);
             strcpy(numero,"");
             strcat(base,"-");
-            itoa(i,numero,10);
+            itoa(j,numero,10);
             strcat(base,numero);
             strcat(base, ".txt");
             strcpy(TabelaBase[count],base);
             count++;
          }
-      }
-   }
+       }
+    }
 }
 
 void  MontaTabelaTeste(int classeA)
@@ -196,9 +196,9 @@ void  MontaTabelaTeste(int classeA)
     char base[tamstr];
     char numero[3];
 
-    for (i = classeA; i < classeA +3 ; i++)
+    for (i = 1; i <= nClasse ; i++)
     {
-      for (j =1 ; j <= qFormas; j++)
+      for (j =classeA ; j < classeA+3; j++)
       {
         strcpy(base,"Descritor_");
         itoa(i,numero,10);
@@ -230,20 +230,13 @@ void DesterminaTesteTreino()
      case 4: MontaTabelaBase(10,11,12);
              MontaTabelaTeste(10);
              break;
-     case 5: MontaTabelaBase(13,14,15);
-             MontaTabelaTeste(13);
-             break;
-     case 6: MontaTabelaBase(16,17,18);
-             MontaTabelaTeste(16);
-             break;
    }
 }
 
 void MostraTabela(){
   int i;
-  for(i=1;i<=36;i++)
+  for(i=1;i<=54;i++)
   {
-    printf("%d\n",i);
     printf("%s %d\n",TabelaTeste[i],i);
   }
 }
@@ -265,7 +258,7 @@ void DaResultado(int indice, int iTT)
     strcpy(resStr,"Distancias_");
     strcat(resStr,TabelaTeste[iTT]);
     resultado = fopen(resStr,"w");
-    for(i=0;i<indice;i++)
+    for(i=0;i<k;i++)
     {
           fprintf(resultado,"%d %s %f\n",i,DistVet[i].nomeDist, DistVet[i].distancia);
     }
@@ -279,10 +272,10 @@ int main()
     printf("Numero do conjunto Teste: \n");
     scanf("%d",&conjuntoTeste);
     DesterminaTesteTreino();
-    //MostraTabela();
+  //  MostraTabela();
     if(  FormaVetoresBase() != -1)
     {
-      for (i = 1; i <= 36; i++)
+      for (i = 1; i <= 54; i++)
       {
           if(EscolheBuscado(i) != -1)
           {

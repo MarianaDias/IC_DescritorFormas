@@ -239,9 +239,6 @@ int main()
     }
    printf("ok\n");
   }
-
-
-
   getchar();
   return 0;
 }

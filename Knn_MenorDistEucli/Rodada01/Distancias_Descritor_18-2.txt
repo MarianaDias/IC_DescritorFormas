@@ -1,0 +1,5 @@
+0 Descritor_18-6.txt 13.114877
+1 Descritor_18-4.txt 20.223749
+2 Descritor_6-7.txt 22.494444
+3 Descritor_6-9.txt 22.494444
+4 Descritor_18-12.txt 22.934690

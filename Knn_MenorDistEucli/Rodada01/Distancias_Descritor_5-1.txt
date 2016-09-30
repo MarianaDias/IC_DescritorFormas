@@ -1,0 +1,5 @@
+0 Descritor_5-4.txt 10.535654
+1 Descritor_5-7.txt 13.564660
+2 Descritor_5-12.txt 13.928389
+3 Descritor_7-9.txt 14.177447
+4 Descritor_5-9.txt 14.491377
