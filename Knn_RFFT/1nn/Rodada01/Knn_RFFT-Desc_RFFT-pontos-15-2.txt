@@ -1,0 +1,1 @@
+Desc_RFFT-pontos-1-10.txt 0.2689

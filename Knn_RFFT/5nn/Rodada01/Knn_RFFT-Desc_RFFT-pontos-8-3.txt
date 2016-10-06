@@ -1,0 +1,5 @@
+Desc_RFFT-pontos-17-10.txt 0.8201
+Desc_RFFT-pontos-4-11.txt 0.8579
+Desc_RFFT-pontos-17-6.txt 0.8840
+Desc_RFFT-pontos-8-12.txt 0.9557
+Desc_RFFT-pontos-14-9.txt 0.9771
