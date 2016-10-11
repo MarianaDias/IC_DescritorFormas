@@ -1,5 +1,0 @@
-Desc_RFFT-pontos-2-10.txt 13.7960
-Desc_RFFT-pontos-18-3.txt 14.4384
-Desc_RFFT-pontos-17-1.txt 21.4507
-Desc_RFFT-pontos-2-3.txt 22.0699
-Desc_RFFT-pontos-2-6.txt 24.9013

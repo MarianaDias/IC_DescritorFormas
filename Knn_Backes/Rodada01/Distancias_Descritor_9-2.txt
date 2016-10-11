@@ -1,5 +1,0 @@
-0 Descritor_9-10.txt 4.123106
-1 Descritor_9-9.txt 7.937254
-2 Descritor_9-4.txt 9.695360
-3 Descritor_9-12.txt 11.000000
-4 Descritor_9-5.txt 11.916375

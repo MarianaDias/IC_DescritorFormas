@@ -1,1 +1,0 @@
-Desc_RFFT-pontos-16-4.txt 0.3286

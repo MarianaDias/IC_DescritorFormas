@@ -1,5 +1,0 @@
-0 Descritor_17-5.txt 119.565880
-1 Descritor_8-8.txt 120.004166
-2 Descritor_8-2.txt 123.907227
-3 Descritor_8-9.txt 125.267715
-4 Descritor_17-2.txt 126.514824
