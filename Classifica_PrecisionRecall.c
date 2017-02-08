@@ -103,7 +103,7 @@ void DaResultado(int indice)
 {
     int i;
     char resStr[tamstr];
-    strcpy(resStr,"Distancias_");
+    strcpy(resStr,"PR_");
     strcat(resStr,Nomebuscado);
     resultado = fopen(resStr,"w");
     for(i=0;i<indice;i++)
